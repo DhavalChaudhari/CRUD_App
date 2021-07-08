@@ -1,13 +1,14 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crud_app/add_countries.dart';
 import 'package:crud_app/country_list.dart';
-import 'package:crud_app/edit_countries.dart';
 import 'package:crud_app/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -56,52 +57,7 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.blueGrey[700],
         title: Text('Crud App'),
       ),
-      body: ListView.builder(
-          itemCount: docs.length,
-          itemBuilder: (context, index) {
-            return Container(
-              child: ListTile(
-                //leading: Text(),
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Text(''),
-                    Text(
-                      docs[index]['name'],
-                    ),
-                    Text(
-                      docs[index]['code'],
-                    ),
-                  ],
-                ),
-
-                trailing: Wrap(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        delete("id");
-                      },
-                      icon: Icon(Icons.remove_circle_outline_rounded),
-                    ),
-                    IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => EditCountries(
-                                        country: docs[index],
-                                        db: db,
-                                      ))).then((value) => {
-                                if (value != null) {initialise()}
-                              });
-                        },
-                        icon: Icon(Icons.edit_rounded))
-                  ],
-                ),
-              ),
-            );
-          }),
+      body: CountriesList(),
       drawer: Drawer(
         child: Container(
           child: ListView(
@@ -123,14 +79,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  late FirebaseFirestore firestore;
-  Future<void> delete(id) async {
-    try {
-      await firestore.collection('countries').doc(id).delete();
-    } catch (e) {
-      print(e);
-    }
   }
 }

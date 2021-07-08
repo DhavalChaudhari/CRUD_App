@@ -50,7 +50,10 @@ class _AddCountriesState extends State<AddCountries> {
         Center(
           child: ElevatedButton(
             onPressed: () {
-              widget.db.add(nameController.text, codeController.text);
+              widget.db.add(
+                nameController.text,
+                codeController.text,
+              );
               Navigator.pop(context, true);
             },
             child: Text('Add'),

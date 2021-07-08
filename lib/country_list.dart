@@ -1,13 +1,15 @@
 import 'package:crud_app/database.dart';
+import 'package:crud_app/delete_country.dart';
 import 'package:crud_app/edit_countries.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class CountriesList extends StatefulWidget {
-  CountriesList({Key? key, required this.db, required this.country})
-      : super(key: key);
-  Database db;
-  Map country;
+  CountriesList({
+    Key? key,
+  }) : super(key: key);
+  //Database db;
+  //Map country;
   @override
   _CountriesListState createState() => _CountriesListState();
 }
@@ -56,13 +58,8 @@ class _CountriesListState extends State<CountriesList> {
 
               trailing: Wrap(
                 children: [
-                  IconButton(
-                    onPressed: () {
-                      widget.db.delete(widget.country['id']);
-                      Navigator.pop(context, true);
-                    },
-                    icon: Icon(Icons.remove_circle_outline_rounded),
-                  ),
+                  DeleteCountry(db: db, country: docs[index]),
+                  //Navigator.pop(context,true),
                   IconButton(
                       onPressed: () {
                         Navigator.push(
